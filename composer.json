@@ -1,0 +1,20 @@
+{
+    "name": "stee1cat/archi-delivery",
+    "description": "Library for working with API ArchiDelivery",
+    "authors": [
+        {
+            "name": "Gennadiy Khatuntsev",
+            "email": "e.steelcat@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "prefer-stable" : true,
+    "require": {
+        "php": ">=5.3.0"
+    },
+    "autoload": {
+        "psr-0": {
+            "ArchiDelivery": ""
+        }
+    }
+}
