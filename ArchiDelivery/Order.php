@@ -105,7 +105,7 @@ class Order {
     /**
      * Подъезд
      *
-     * @var int
+     * @var string
      */
     protected $frontDoor;
 
@@ -121,7 +121,7 @@ class Order {
      *
      * @var string
      */
-    protected $doorPhone = false;
+    protected $doorPhone;
 
     /**
      * Количество персон
@@ -247,6 +247,7 @@ class Order {
         'street',
         'home',
         'corps',
+        'office',
         'room',
         'frontDoor',
         'level',
@@ -427,18 +428,18 @@ class Order {
     }
 
     /**
-     * @return int
+     * @return string
      */
     public function getFrontDoor() {
         return $this->frontDoor;
     }
 
     /**
-     * @param int $frontDoor
+     * @param string $frontDoor
      * @return Order
      */
     public function setFrontDoor($frontDoor) {
-        $this->frontDoor = intval($frontDoor);
+        $this->frontDoor = $frontDoor;
         return $this;
     }
 
@@ -459,18 +460,18 @@ class Order {
     }
 
     /**
-     * @return boolean
+     * @return string
      */
-    public function isDoorPhone() {
+    public function getDoorPhone() {
         return $this->doorPhone;
     }
 
     /**
-     * @param boolean $doorPhone
+     * @param string $doorPhone
      * @return Order
      */
     public function setDoorPhone($doorPhone) {
-        $this->doorPhone = !!$doorPhone;
+        $this->doorPhone = $doorPhone;
         return $this;
     }
 
@@ -748,6 +749,9 @@ class Order {
                 default:
             }
             if ($value !== null) {
+                if ($paramName == 'type' && $value == 0) {
+                    continue;
+                }
                 $params[strtolower($paramName)] = iconv('UTF-8', 'CP1251', $value);
             }
         }

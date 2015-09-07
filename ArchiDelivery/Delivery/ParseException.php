@@ -14,4 +14,8 @@ use Exception;
  * Class ParseException
  * @package ArchiDelivery\Delivery
  */
-class ParseException extends Exception {}
+class ParseException extends Exception {
+
+
+
+}

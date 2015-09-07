@@ -10,6 +10,10 @@ namespace ArchiDelivery;
 
 use ArchiDelivery\Delivery\ParseException;
 
+/**
+ * Class Delivery
+ * @package ArchiDelivery
+ */
 class Delivery {
 
     /**
@@ -20,9 +24,9 @@ class Delivery {
     protected $ip;
 
     /**
-     * @var Loader
+     * @var Request
      */
-    protected $loader;
+    protected $request;
 
     /**
      * @var bool
@@ -30,25 +34,34 @@ class Delivery {
     protected $errorReporting = false;
 
     public function __construct() {
-        $this->loader = new Loader();
+        $this->request = new Request();
     }
 
+    /**
+     * @param string $action
+     * @param array $params
+     * @return Response\Text|bool|\SimpleXMLElement
+     * @throws ParseException
+     */
     public function api($action = '', array $params) {
         $result = false;
         $url = ($action)? 'http://' . $this->getIp() . '/' . $action: 'http://' . $this->getIp() . '/';
-        $this->loader->setURL($url);
-        $this->loader->setGetParams($params);
-        $response = $this->loader->get();
-        if ($this->loader->isXML()) {
+        $this->request->setURL($url);
+        $this->request->setGetParams($params);
+        $response = $this->request->run();
+        if ($this->request->isXML()) {
             libxml_use_internal_errors(true);
             $result = simplexml_load_string($response);
-            if (libxml_get_errors() && $this->isErrorReporting()) {
+            if (libxml_get_errors() && $this->errorReporting) {
                 $errors = libxml_get_errors();
                 foreach ($errors as $error) {
                     throw new ParseException($error->message, $error->code);
                 }
             }
             libxml_use_internal_errors(false);
+        }
+        else if ($this->request->isText()) {
+            $result = new Response\Text($response);
         }
         return $result;
     }
