@@ -38,11 +38,19 @@ class Delivery {
     }
 
     /**
-     * @param string $action
-     * @param array $params
-     * @return Response\Text|bool|\SimpleXMLElement
-     * @throws ParseException
+     * @return Order
      */
+    public function createOrder() {
+        return new Order($this);
+    }
+
+    /**
+     * @return Client
+     */
+    public function createClient() {
+        return new Client($this);
+    }
+
     public function api($action = '', array $params) {
         $result = false;
         $url = ($action)? 'http://' . $this->getIp() . '/' . $action: 'http://' . $this->getIp() . '/';

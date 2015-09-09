@@ -79,6 +79,14 @@ class Address {
     protected $doorPhone;
 
     /**
+     * Станция метро
+     *
+     * @var string
+     * @since v1.5.7.0
+     */
+    protected $metro;
+
+    /**
      * @return string
      */
     public function getCityName() {
@@ -90,7 +98,7 @@ class Address {
      * @return Address
      */
     public function setCityName($cityName) {
-        $this->cityName = $cityName;
+        $this->cityName = trim($cityName);
         return $this;
     }
 
@@ -106,7 +114,7 @@ class Address {
      * @return Address
      */
     public function setStreet($street) {
-        $this->street = $street;
+        $this->street = trim($street);
         return $this;
     }
 
@@ -122,7 +130,7 @@ class Address {
      * @return Address
      */
     public function setHome($home) {
-        $this->home = $home;
+        $this->home = trim($home);
         return $this;
     }
 
@@ -138,7 +146,7 @@ class Address {
      * @return Address
      */
     public function setOffice($office) {
-        $this->office = $office;
+        $this->office = trim($office);
         return $this;
     }
 
@@ -154,7 +162,7 @@ class Address {
      * @return Address
      */
     public function setCorps($corps) {
-        $this->corps = $corps;
+        $this->corps = trim($corps);
         return $this;
     }
 
@@ -170,7 +178,7 @@ class Address {
      * @return Address
      */
     public function setRoom($room) {
-        $this->room = $room;
+        $this->room = trim($room);
         return $this;
     }
 
@@ -186,7 +194,7 @@ class Address {
      * @return Address
      */
     public function setFrontDoor($frontDoor) {
-        $this->frontDoor = $frontDoor;
+        $this->frontDoor = trim($frontDoor);
         return $this;
     }
 
@@ -202,7 +210,7 @@ class Address {
      * @return Address
      */
     public function setLevel($level) {
-        $this->level = $level;
+        $this->level = trim($level);
         return $this;
     }
 
@@ -218,8 +226,44 @@ class Address {
      * @return Address
      */
     public function setDoorPhone($doorPhone) {
-        $this->doorPhone = $doorPhone;
+        $this->doorPhone = trim($doorPhone);
         return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getMetro() {
+        return $this->metro;
+    }
+
+    /**
+     * @param string $metro
+     * @return Address
+     */
+    public function setMetro($metro) {
+        $this->metro = $metro;
+        return $this;
+    }
+
+    /**
+     * @return array
+     */
+    public function toArray() {
+        $fields = array(
+            'cityname' => $this->getCityName(),
+            'street' => $this->getStreet(),
+            'home' => $this->getHome(),
+            'corps' => $this->getCorps(),
+            'office' => $this->getOffice(),
+            'room' => $this->getRoom(),
+            'frontdoor' => $this->getFrontDoor(),
+            'level' => $this->getLevel(),
+            'doorphone' => $this->getDoorPhone(),
+            'metro' => $this->getMetro(),
+        );
+        $result = array_diff($fields, array(''));
+        return $result;
     }
 
 }

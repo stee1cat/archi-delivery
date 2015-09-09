@@ -17,111 +17,9 @@ use ArchiDelivery\Order\Item;
 class Order {
 
     /**
-     * Режим передачи клиента с указанием имени
-     */
-    const TYPE_NAME = 0;
-
-    /**
-     * Режим передачи клиента с указанием ID
-     */
-    const TYPE_ID = 1;
-
-    /**
      * Формат отправляемого заказа
      */
     const ORDER_JSON = 1;
-
-    /**
-     * Режим передачи клиента
-     *
-     * @var int
-     * @since v1.0.0.8
-     */
-    protected $type;
-
-    /**
-     * ФИО клиента
-     *
-     * @var string
-     */
-    protected $client;
-
-    /**
-     * ID клиента (в режиме TYPE_ID)
-     *
-     * @var int
-     * @since v1.0.0.8
-     */
-    protected $clientId;
-
-    /**
-     * Название города или населенного пункта
-     *
-     * @var string
-     * @since v1.0.0.8
-     */
-    protected $cityName;
-
-    /**
-     * Телефон
-     *
-     * @var string
-     */
-    protected $phone;
-
-    /**
-     * Улица
-     *
-     * @var string
-     */
-    protected $street;
-
-    /**
-     * Дом
-     *
-     * @var string
-     */
-    protected $home;
-
-    /**
-     * @var string
-     */
-    protected $office;
-
-    /**
-     * Корпус
-     *
-     * @var string
-     */
-    protected $corps;
-
-    /**
-     * Квартира
-     *
-     * @var string
-     */
-    protected $room;
-
-    /**
-     * Подъезд
-     *
-     * @var string
-     */
-    protected $frontDoor;
-
-    /**
-     * Этаж
-     *
-     * @var int
-     */
-    protected $level;
-
-    /**
-     * Код домофона
-     *
-     * @var string
-     */
-    protected $doorPhone;
 
     /**
      * Количество персон
@@ -129,13 +27,6 @@ class Order {
      * @var int
      */
     protected $flatwareCount;
-
-    /**
-     * Электронная почта
-     *
-     * @var string
-     */
-    protected $mail;
 
     /**
      * Комментарий (max length 200)
@@ -198,14 +89,6 @@ class Order {
     protected $orderType;
 
     /**
-     * Станция метро
-     *
-     * @var string
-     * @since v1.5.7.0
-     */
-    protected $metro;
-
-    /**
      * Сдача с
      *
      * @var string
@@ -234,26 +117,24 @@ class Order {
     protected $items = array();
 
     /**
+     * Клиент
+     *
+     * @var Client
+     */
+    protected $client;
+
+    /**
+     * @var Client\Address
+     */
+    protected $address;
+
+    /**
      * Параметры доступные к отправке
      *
      * @var array
      */
     protected $params = array(
-        'type',
-        'client',
-        'clientId',
-        'cityName',
-        'phone',
-        'street',
-        'home',
-        'corps',
-        'office',
-        'room',
-        'frontDoor',
-        'level',
-        'doorPhone',
         'flatwareCount',
-        'mail',
         'comment',
         'database',
         'time',
@@ -262,216 +143,30 @@ class Order {
         'paymentType',
         'order',
         'orderType',
-        'metro',
         'changeFrom',
         'orderFormatType',
     );
 
     /**
-     * @return int
+     * @param Delivery $delivery
      */
-    public function getClientType() {
-        return $this->type;
+    public function __construct(Delivery $delivery) {
+        $this->delivery = $delivery;
     }
 
     /**
-     * @param int $type
-     * @return Order
-     */
-    public function setClientType($type) {
-        $this->type = intval($type);
-        return $this;
-    }
-
-    /**
-     * @return string
+     * @return Client
      */
     public function getClient() {
         return $this->client;
     }
 
     /**
-     * @param string $client
+     * @param Client $client
      * @return Order
      */
-    public function setClient($client) {
+    public function setClient(Client $client) {
         $this->client = $client;
-        return $this;
-    }
-
-    /**
-     * @return int
-     */
-    public function getClientId() {
-        return $this->clientId;
-    }
-
-    /**
-     * @param int $clientId
-     * @return Order
-     */
-    public function setClientId($clientId) {
-        $this->clientId = intval($clientId);
-        return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function getCityName() {
-        return $this->cityName;
-    }
-
-    /**
-     * @param string $cityName
-     * @return Order
-     */
-    public function setCityName($cityName) {
-        $this->cityName = $cityName;
-        return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function getPhone() {
-        return $this->phone;
-    }
-
-    /**
-     * @param string $phone
-     * @return Order
-     */
-    public function setPhone($phone) {
-        $this->phone = $phone;
-        return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function getStreet() {
-        return $this->street;
-    }
-
-    /**
-     * @param string $street
-     * @return Order
-     */
-    public function setStreet($street) {
-        $this->street = $street;
-        return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function getHome() {
-        return $this->home;
-    }
-
-    /**
-     * @param string $home
-     * @return Order
-     */
-    public function setHome($home) {
-        $this->home = $home;
-        return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function getCorps() {
-        return $this->corps;
-    }
-
-    /**
-     * @param string $corps
-     * @return Order
-     */
-    public function setCorps($corps) {
-        $this->corps = $corps;
-        return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function getRoom() {
-        return $this->room;
-    }
-
-    /**
-     * @param string $room
-     * @return Order
-     */
-    public function setRoom($room) {
-        $this->room = $room;
-        return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function getOffice() {
-        return $this->office;
-    }
-
-    /**
-     * @param string $office
-     * @return Order
-     */
-    public function setOffice($office) {
-        $this->office = $office;
-        return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function getFrontDoor() {
-        return $this->frontDoor;
-    }
-
-    /**
-     * @param string $frontDoor
-     * @return Order
-     */
-    public function setFrontDoor($frontDoor) {
-        $this->frontDoor = $frontDoor;
-        return $this;
-    }
-
-    /**
-     * @return int
-     */
-    public function getLevel() {
-        return $this->level;
-    }
-
-    /**
-     * @param int $level
-     * @return Order
-     */
-    public function setLevel($level) {
-        $this->level = intval($level);
-        return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function getDoorPhone() {
-        return $this->doorPhone;
-    }
-
-    /**
-     * @param string $doorPhone
-     * @return Order
-     */
-    public function setDoorPhone($doorPhone) {
-        $this->doorPhone = $doorPhone;
         return $this;
     }
 
@@ -488,22 +183,6 @@ class Order {
      */
     public function setFlatwareCount($flatwareCount) {
         $this->flatwareCount = intval($flatwareCount);
-        return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function getMail() {
-        return $this->mail;
-    }
-
-    /**
-     * @param string $mail
-     * @return Order
-     */
-    public function setMail($mail) {
-        $this->mail = $mail;
         return $this;
     }
 
@@ -638,22 +317,6 @@ class Order {
     /**
      * @return string
      */
-    public function getMetro() {
-        return $this->metro;
-    }
-
-    /**
-     * @param string $metro
-     * @return Order
-     */
-    public function setMetro($metro) {
-        $this->metro = $metro;
-        return $this;
-    }
-
-    /**
-     * @return string
-     */
     public function getChangeFrom() {
         return $this->changeFrom;
     }
@@ -680,22 +343,6 @@ class Order {
      */
     public function setOrderFormatType($orderFormatType) {
         $this->orderFormatType = intval($orderFormatType);
-        return $this;
-    }
-
-    /**
-     * @return Delivery
-     */
-    public function getDelivery() {
-        return $this->delivery;
-    }
-
-    /**
-     * @param Delivery $delivery
-     * @return Order
-     */
-    public function setDelivery($delivery) {
-        $this->delivery = $delivery;
         return $this;
     }
 
@@ -733,6 +380,22 @@ class Order {
         return count($this->items);
     }
 
+    /**
+     * @return Client\Address
+     */
+    public function getAddress() {
+        return $this->address;
+    }
+
+    /**
+     * @param Client\Address $address
+     * @return Order
+     */
+    public function setAddress($address) {
+        $this->address = $address;
+        return $this;
+    }
+
     public function send() {
         $result = false;
         $params = array();
@@ -746,14 +409,24 @@ class Order {
                     }
                     $value = ($this->orderFormatType == self::ORDER_JSON)? json_encode($items): implode(',', $items);
                     break;
+                case 'type':
+                    if ($value == 0) {
+                        continue 2;
+                    }
+                    break;
                 default:
             }
             if ($value !== null) {
-                if ($paramName == 'type' && $value == 0) {
-                    continue;
-                }
                 $params[strtolower($paramName)] = iconv('UTF-8', 'CP1251', $value);
             }
+        }
+        $address = $this->getAddress();
+        if ($address) {
+            $params = array_merge($params, $address->toArray());
+        }
+        $client = $this->getClient();
+        if ($client) {
+            $params = array_merge($params, $client->toArray());
         }
         $response = $this->delivery->api('neworder', $params);
         if ($response instanceof \SimpleXMLElement && $response->Errors instanceof \SimpleXMLElement) {

@@ -8,10 +8,6 @@
 
 namespace ArchiDelivery\Order;
 
-/**
- * Class Item
- * @package ArchiDelivery\Order
- */
 class Item {
 
     /**

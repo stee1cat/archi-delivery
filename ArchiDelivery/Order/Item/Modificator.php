@@ -8,10 +8,6 @@
 
 namespace ArchiDelivery\Order\Item;
 
-/**
- * Class Modificator
- * @package ArchiDelivery\Order\Item
- */
 class Modificator {
 
     /**

@@ -10,10 +10,6 @@ namespace ArchiDelivery\Delivery;
 
 use Exception;
 
-/**
- * Class ParseException
- * @package ArchiDelivery\Delivery
- */
 class ParseException extends Exception {
 
 
