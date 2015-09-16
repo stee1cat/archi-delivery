@@ -8,6 +8,10 @@
 
 namespace ArchiDelivery;
 
+/**
+ * Class Request
+ * @package ArchiDelivery
+ */
 class Request {
 
     const METHOD_GET = 1;

@@ -8,6 +8,10 @@
 
 namespace ArchiDelivery;
 
+/**
+ * Class Autoloader
+ * @package ArchiDelivery
+ */
 class Autoloader {
 
     public static $loader;

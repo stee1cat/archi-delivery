@@ -81,7 +81,7 @@ class Order {
     protected $order;
 
     /**
-     * Тип заказа
+     * Тип заказа (для самовывоза возможно понадобится значение -1, с указанием имени и телефона клиента)
      *
      * @var
      * @since v1.0.0.4
@@ -396,8 +396,11 @@ class Order {
         return $this;
     }
 
+    /**
+     * @return bool
+     * @throws Delivery\ParseException
+     */
     public function send() {
-        $result = false;
         $params = array();
         foreach ($this->params as $paramName) {
             $value = $this->{$paramName};
@@ -417,7 +420,7 @@ class Order {
                 default:
             }
             if ($value !== null) {
-                $params[strtolower($paramName)] = iconv('UTF-8', 'CP1251', $value);
+                $params[strtolower($paramName)] = $value;
             }
         }
         $address = $this->getAddress();
@@ -429,10 +432,7 @@ class Order {
             $params = array_merge($params, $client->toArray());
         }
         $response = $this->delivery->api('neworder', $params);
-        if ($response instanceof \SimpleXMLElement && $response->Errors instanceof \SimpleXMLElement) {
-            $result = !$response->Errors->count();
-        }
-        return $result;
+        return $response->isSuccess();
     }
 
 }

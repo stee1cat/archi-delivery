@@ -224,7 +224,7 @@ class Client {
 
     /**
      * @param string $phone
-     * @return Order
+     * @return Client
      */
     public function setPhone($phone) {
         $this->phone = trim($phone);
@@ -240,7 +240,7 @@ class Client {
 
     /**
      * @param string $mail
-     * @return Order
+     * @return Client
      */
     public function setMail($mail) {
         $this->mail = $mail;

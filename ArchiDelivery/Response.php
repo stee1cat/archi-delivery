@@ -6,16 +6,15 @@
  * @link https://github.com/stee1cat/archi-delivery
  */
 
-namespace ArchiDelivery\Delivery;
-
-use Exception;
+namespace ArchiDelivery;
 
 /**
- * Class ParseException
- * @package ArchiDelivery\Delivery
+ * Interface Response
+ * @package ArchiDelivery
  */
-class ParseException extends Exception {
+interface Response {
 
-
+    public function isSuccess();
+    public function getData();
 
 }

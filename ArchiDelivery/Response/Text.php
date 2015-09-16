@@ -8,7 +8,13 @@
 
 namespace ArchiDelivery\Response;
 
-class Text {
+use ArchiDelivery\Response;
+
+/**
+ * Class Text
+ * @package ArchiDelivery\Response
+ */
+class Text implements Response {
 
     private $raw;
 

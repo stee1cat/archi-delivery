@@ -51,11 +51,17 @@ class Delivery {
         return new Client($this);
     }
 
+    /**
+     * @param string $action
+     * @param array $params
+     * @return Response\Text|Response\XML|bool
+     * @throws ParseException
+     */
     public function api($action = '', array $params) {
         $result = false;
         $url = ($action)? 'http://' . $this->getIp() . '/' . $action: 'http://' . $this->getIp() . '/';
         $this->request->setURL($url);
-        $this->request->setGetParams($params);
+        $this->request->setGetParams($this->convertEncoding($params));
         $response = $this->request->run();
         if ($this->request->isXML()) {
             libxml_use_internal_errors(true);
@@ -65,6 +71,9 @@ class Delivery {
                 foreach ($errors as $error) {
                     throw new ParseException($error->message, $error->code);
                 }
+            }
+            else {
+                $result = new Response\XML($result);
             }
             libxml_use_internal_errors(false);
         }
@@ -100,6 +109,20 @@ class Delivery {
      */
     public function setErrorReporting($errorReporting) {
         $this->errorReporting = $errorReporting;
+    }
+
+    /**
+     * Конвертирует кодировку параметров в CP1251
+     *
+     * @param array $data
+     * @return array
+     */
+    private function convertEncoding(array $data) {
+        foreach ($data as $key => &$value) {
+            $value = iconv('UTF-8', 'CP1251', $value);
+        }
+        unset($value);
+        return $data;
     }
 
 }
