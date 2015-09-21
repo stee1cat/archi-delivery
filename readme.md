@@ -2,18 +2,19 @@
 
 [ArchiDelivery](http://www.archidelivery.ru/ "this is shit")
 
+#### Installation
+
 ```
-use ArchiDelivery\Autoloader;
+composer require stee1cat/archi-delivery:dev-master
+```
+
+```php
 use ArchiDelivery\Delivery;
 use ArchiDelivery\Client;
 use ArchiDelivery\Client\Address;
 use ArchiDelivery\Order;
 use ArchiDelivery\Order\Item;
 use ArchiDelivery\Order\Item\Modificator;
-
-require_once 'ArchiDelivery/Autoloader.php';
-
-Autoloader::init();
 
 $delivery = new Delivery();
 $delivery->setIp('192.168.0.1');
@@ -57,14 +58,10 @@ $result = $order->addItem($item)
 ```
 
 #### Find customers using a telephone number:
-```
-use ArchiDelivery\Autoloader;
+***
+```php
 use ArchiDelivery\Delivery;
 use ArchiDelivery\Client;
-
-require_once 'ArchiDelivery/Autoloader.php';
-
-Autoloader::init();
 
 $delivery = new Delivery();
 $delivery->setIp('192.168.0.1');
