@@ -8,6 +8,8 @@
 composer require stee1cat/archi-delivery:dev-master
 ```
 
+#### Usage
+
 ```php
 use ArchiDelivery\Delivery;
 use ArchiDelivery\Client;
