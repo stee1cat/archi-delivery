@@ -268,6 +268,25 @@ class Client {
     }
 
     /**
+     * @param integer $id
+     * @return array
+     * @throws Delivery\ParseException
+     */
+    public function getData($id) {
+        $result = array();
+        $params = array(
+            'cid' => $id,
+        );
+        $response = $this->delivery->api('getclientdata', $params);
+        if ($response->isSuccess()) {
+            foreach ($response->getData() as $data) {
+                $result = $data;
+            }
+        }
+        return $result;
+    }
+
+    /**
      * @return array
      */
     public function toArray() {
