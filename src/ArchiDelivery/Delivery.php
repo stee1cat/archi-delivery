@@ -81,6 +81,9 @@ class Delivery {
             else if ($this->request->isText()) {
                 $result = new Response\Text($response);
             }
+            else {
+                $result = new Response\Error($response);
+            }
         }
         else {
             $result = new Response\Error($response);
