@@ -63,22 +63,27 @@ class Delivery {
         $this->request->setURL($url);
         $this->request->setGetParams($this->convertEncoding($params));
         $response = $this->request->run();
-        if ($this->request->isXML()) {
-            libxml_use_internal_errors(true);
-            $result = simplexml_load_string($response);
-            if (libxml_get_errors() && $this->errorReporting) {
-                $errors = libxml_get_errors();
-                foreach ($errors as $error) {
-                    throw new ParseException($error->message, $error->code);
+        if ($response) {
+            if ($this->request->isXML()) {
+                libxml_use_internal_errors(true);
+                $result = simplexml_load_string($response);
+                if (libxml_get_errors() && $this->errorReporting) {
+                    $errors = libxml_get_errors();
+                    foreach ($errors as $error) {
+                        throw new ParseException($error->message, $error->code);
+                    }
                 }
+                else {
+                    $result = new Response\XML($result);
+                }
+                libxml_use_internal_errors(false);
             }
-            else {
-                $result = new Response\XML($result);
+            else if ($this->request->isText()) {
+                $result = new Response\Text($response);
             }
-            libxml_use_internal_errors(false);
         }
-        else if ($this->request->isText()) {
-            $result = new Response\Text($response);
+        else {
+            $result = new Response\Error($response);
         }
         return $result;
     }
